@@ -1,45 +1,71 @@
-// Select elements needed to create shopping list, and cache queries. 
+const button = document.getElementById("enter");
+const input = document.getElementById("userinput");
+const ul = document.querySelector("ul");
+const listItems = document.querySelectorAll("li")
 
-var button = document.getElementById('enter');
-var input = document.getElementById('userinput');
-var ul = document.querySelector("ul");
+// create list when entering shopping items
+function createListElement() {
+	const li = document.createElement("li");
+	li.appendChild(document.createTextNode(input.value));
+	ul.appendChild(li);
+	input.value = "";
+	
+	// click item to cross and uncross item (DOM .done)
+	li.addEventListener("click", () => {
+		li.classList.toggle("done")
+	});
+	
+	// add delete button to added input items on shopping list
+	// and delete item when clicked
+	const deleteButton = document.createElement('BUTTON');
+	deleteButton.textContent = "Delete";
+	li.appendChild(deleteButton);
+	deleteButton.addEventListener("click", () => {
+		li.remove()
+	});
+}
 
-// measure length of input (input requiring length of > 0, as per if statement below)
+// measures user input length
 function inputLength() {
 	return input.value.length;
 }
 
-// append input to list (under parent list 'ul')
-function createListElement() {
-	var li = document.createElement("li"); 
-	li.appendChild(document.createTextNode(input.value));
-	ul.appendChild(li);
-	input.value = "";
-}
-
-// input appends to list only if characters/input > 0
+// if user inputs more than 0 characters, this will call on the createListElement to add new input item after user "click"
 function addListAfterClick() {
 	if (inputLength() > 0) {
 		createListElement();
 	}
 }
 
-// input appends to list only if characters/input > 0 AND presses 'enter' on keyboard
-// NOTE: can use event.which === 13
-// https://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
-function addListAfterEnter(event) {
-	if (inputLength() > 0 && event.code === "Enter") {
+// if user inputs more than 0 characters and presses 'enter' key, this will call on the createListElement to add new input item
+function addListAfterKeypress(event) {
+	if (inputLength() > 0 && event.keyCode === 13) {
 		createListElement();
-	};
+	}
 }
 
-// run addListAfterClick function when user clicks button
+// Listener to call addListAfterClick and addListAfterKeypress after after user "clicks" button or presses 'enter' key
 button.addEventListener("click", addListAfterClick);
+input.addEventListener("keypress", addListAfterKeypress);
 
-// run addListAfterEnter function when user presses 'enter' on keyboard
-input.addEventListener("keypress", addListAfterEnter);
+// for current/default list items; this will toggle "done" (cross/uncross item)
+listItems.forEach(item => {
+	item.addEventListener("click", () => {
+		item.classList.toggle("done")
+	});
+})
 
+// for current/defauly list items; this will add the delete button to each item
+// and remove item if "clicked" by user
+listItems.forEach(item => {
+	deleteButton = document.createElement('BUTTON');
+	deleteButton.textContent = "Delete";
+	item.appendChild(deleteButton);
 
+	deleteButton.addEventListener("click", () => {
+		item.remove()
+	});
+})
 
 
 
