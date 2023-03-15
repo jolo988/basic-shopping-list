@@ -1,2 +1,11 @@
 # basic-shopping-list
-Add items to basic shopping list (HTML, Javascript only)
+
+
+
+# Shopping list functionalities:
+
+• add item to list
+
+• cross and uncross item
+
+• delete item
